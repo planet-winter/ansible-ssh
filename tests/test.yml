@@ -1,20 +1,20 @@
 ---
 - hosts: all
-
   vars:
-    standard_user:  daniel
+    standard_user: daniel
 
-  pre_tasks:
-    - name: install firewalld
-      action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
+  tasks:
+  # make role tests atomic
+  # satisfy meta/main.yml  requirements
+  - name: install universe repository for firewalld
+    apt_repository:
+      repo: "{{item}}"
+    when: ansible_distribution == 'Ubuntu'
+    with_items:
+      - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe'
 
-    - name: install missing packackage on fedoras
-      action: "{{ ansible_pkg_mgr }} state=installed name=python-firewall"
-      #when:  ( ansible_distribution == "Fedora" )
-
-    - name: start firewall
-      service: name=firewalld enabled=yes state=started
-                
+  - name: install firewalld
+    action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
 
   roles:
     - role_under_test
