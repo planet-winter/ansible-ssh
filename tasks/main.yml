@@ -11,8 +11,12 @@
        - "{{ ansible_os_family|lower }}.yml"
        - defaults.yml
        paths:
-         - ../vars         
-
+         - ../vars
+         
+- name: Update apt cache.
+  apt: update_cache=yes cache_valid_time=86400
+  when: ansible_os_family == 'Debian'
+         
 - name: install packages
   action: "{{ ansible_pkg_mgr }} state=installed name={{ item }}"
   with_items: "{{ role_ssh_packages }}"
