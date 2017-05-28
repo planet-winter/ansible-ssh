@@ -1,0 +1,6 @@
+---
+# ubuntu os specific variables
+role_ssh_packages:
+  - openssh-server
+  - firewalld
+      

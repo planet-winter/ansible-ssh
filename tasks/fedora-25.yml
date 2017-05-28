@@ -1,0 +1,7 @@
+---
+# fedora 25 os specific vars
+role_ssh_packages:
+    - openssh-server
+    - firewalld
+    # missing dependency
+    - python-firewall 
