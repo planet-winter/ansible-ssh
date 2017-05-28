@@ -1,0 +1,22 @@
+---
+
+- name: configure sshd
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0600
+  notify:
+    - restart sshd
+
+- name: wait for ssh to be back
+  local_action: wait_for port=22 host="{{ ansible_ssh_host | default(inventory_hostname) }}" search_regex=OpenSSH delay=10
+    
+
+- name: enable and start firewalld to avoid issue https://github.com/ansible/ansible-modules-extras/issues/1282
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+  
+- name: ensure ssh is always open
+  firewalld: service=ssh permanent=true state=enabled immediate=true zone=public
+
+

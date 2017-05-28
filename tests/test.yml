@@ -1,0 +1,18 @@
+---
+- hosts: all
+
+
+  pre_tasks:
+    - name: install firewalld
+      action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
+
+    - name: install missing packackage on fedoras
+      action: "{{ ansible_pkg_mgr }} state=installed name=python-firewall"
+      #when:  ( ansible_distribution == "Fedora" )
+
+    - name: start firewall
+      service: name=firewalld enabled=yes state=started
+                
+
+  roles:
+    - role_under_test
