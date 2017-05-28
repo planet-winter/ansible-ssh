@@ -1,8 +1,0 @@
-- name: ubuntu install universe repository for firewalld
-  apt_repository:
-    repo: "{{item}}"
-  when: ansible_distribution == 'Ubuntu'
-  with_items:
-    - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe'
-
-

@@ -1,7 +1,4 @@
 ---
-
-- include: ubuntu-install.yml
-  when: ansible_distribution == 'Ubuntu'
   
 - name: gather os specific variables
   include_vars: "{{ item }}"
