@@ -4,4 +4,4 @@
   when: ansible_distribution == 'Ubuntu'
   with_items:
     - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe'
-                    
+    - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} backports'
