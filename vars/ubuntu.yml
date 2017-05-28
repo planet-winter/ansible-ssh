@@ -3,5 +3,5 @@
 role_ssh_packages:
   - openssh-server
   - firewalld
-  # ansible dependency hack
-  - https://github.com/hryamzik/python-firewalld/files/182007/python-firewalld_0.1-0.deb.zip
+  # contains firewalld python module
+  - ansible
