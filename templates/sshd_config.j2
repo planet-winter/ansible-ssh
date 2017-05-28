@@ -81,15 +81,9 @@ AcceptEnv XMODIFIERS
 Subsystem	sftp	/usr/libexec/openssh/sftp-server
 
 # per user config
-Match User daniel
+Match User {{ standard_user }}
       PasswordAuthentication yes
       AllowTcpForwarding yes
       X11Forwarding yes
       PubkeyAuthentication yes
 
-# vagrant for test provisioning
-Match User vagrant
-      PasswordAuthentication no
-      AllowTcpForwarding no
-      X11Forwarding no
-      PubkeyAuthentication yes

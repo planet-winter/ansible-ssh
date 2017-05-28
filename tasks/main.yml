@@ -1,5 +1,21 @@
 ---
 
+
+- name: ubuntu install universe repository for firewalld
+  apt_repository:
+    repo: "{{item}}"
+  when: ansible_distribution == 'Ubuntu'
+  with_items:
+    - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe'
+
+- name: install firewalld
+  action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
+
+- name: install missing packackage on fedoras
+  action: "{{ ansible_pkg_mgr }} state=installed name=python-firewall"
+  when:  ( ansible_distribution == "Fedora" )
+                                
+
 - name: configure sshd
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0600
   notify:
