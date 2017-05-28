@@ -1,21 +1,27 @@
 ---
 
-
-- name: ubuntu install universe repository for firewalld
-  apt_repository:
-    repo: "{{item}}"
+- include: ubuntu-install.yml
   when: ansible_distribution == 'Ubuntu'
-  with_items:
-    - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe'
+  
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+     - files:
+       - "{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml"
+       - "{{ ansible_distribution|lower }}-{{ ansible_distribution_release }}.yml"
+       - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+       - "{{ ansible_distribution|lower }}.yml"
+       - "{{ ansible_os_family|lower }}.yml"
+       - defaults.yml
+       paths:
+         - ../vars         
 
-- name: install firewalld
-  action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
-
-- name: install missing packackage on fedoras
-  action: "{{ ansible_pkg_mgr }} state=installed name=python-firewall"
-  when:  ( ansible_distribution == "Fedora" )
-                                
-
+- name: install packages
+  action: "{{ ansible_pkg_mgr }} state=installed name={{ item }}"
+  with_items: "{{ role_ssh_packages }}"
+  when: role_ssh_packages is defined
+  
+  
 - name: configure sshd
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0600
   notify:
@@ -30,7 +36,6 @@
     name: firewalld
     state: started
     enabled: yes
-
   
 - name: ensure ssh is always open
   firewalld: service=ssh permanent=true state=enabled immediate=true zone=public
