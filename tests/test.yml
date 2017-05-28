@@ -16,10 +16,10 @@
 
   - name: try install missing dependency for differen OS
     action: "{{ ansible_pkg_mgr }} state=installed name={{ item }}"
+    ignore_errors: yes
     with_items: "{{ item }}"
       - python-firewall
-      - python-firewalld
-    ignore_errors: true
+      - python-firewalld  
 
   - name: install firewalld
     action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
