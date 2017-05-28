@@ -3,5 +3,5 @@
 role_ssh_packages:
   - openssh-server
   - firewalld
-  # contains firewalld python module
-  - ansible
+
+
