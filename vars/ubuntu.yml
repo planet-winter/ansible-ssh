@@ -3,4 +3,4 @@
 role_ssh_packages:
   - openssh-server
   - firewalld
-      
+  - python-firewall      
