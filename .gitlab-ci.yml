@@ -3,7 +3,7 @@ test:centos7:
     DOCKER_IMAGE: geerlingguy/docker-centos7-ansible:latest
     PLAYBOOK_EXTRA_VARS: ""
     ANSIBLE_ROLES_PATH: /builds/planet-winter/
-  image: $DOCKER_IMAGE  
+  image: $DOCKER_IMAGE
   script:
     - ansible-playbook --syntax-check --extra-vars "$PLAYBOOK_EXTRA_VARS" tests/test.yml
     # Test role

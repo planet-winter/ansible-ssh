@@ -4,4 +4,4 @@ role_ssh_packages:
     - openssh-server
     - firewalld
     # missing dependency
-    - python-firewall 
+    - python-firewall

@@ -20,12 +20,12 @@
     with_items:
       - python-firewall
       - python-firewalld
-      
+
   - name: Install a fix for missing lib in ubuntu
     apt:
       deb: python-firewalld_0.1-0.deb
     when: ansible_distribution == 'Ubuntu'
-          
+
   - name: install firewalld
     action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
 
