@@ -6,7 +6,7 @@ driver:
 docker:
   containers:
     - name: ansible-ssh
-      image: planetw/docker-ubuntu1604-ansible
+      image: planetw/docker-centos7-ansible
       image_version: latest
 verifier:
   name: testinfra
