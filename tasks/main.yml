@@ -12,16 +12,16 @@
        - defaults.yml
        paths:
          - ../vars
-         
+
 - name: Update apt cache.
   apt: update_cache=yes cache_valid_time=86400
   when: ansible_os_family == 'Debian'
-         
+       
 - name: install packages
   action: "{{ ansible_pkg_mgr }} state=installed name={{ item }}"
   with_items: "{{ role_ssh_packages }}"
   when: role_ssh_packages is defined
-  
+
 - name: configure sshd
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0600
   notify:
@@ -37,8 +37,6 @@
     name: firewalld
     state: started
     enabled: yes
-  
+
 - name: ensure ssh is always open
   firewalld: service=ssh permanent=true state=enabled immediate=true zone=public
-
-

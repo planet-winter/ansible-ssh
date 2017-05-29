@@ -9,5 +9,10 @@ docker:
     - name: centos7
       image: planetw/docker-centos7-ansible
       image_version: latest
-verifier:
-  name: testinfra
+      privileged: True
+      required: True
+    - name: ubuntu16.04
+      image: solita/ubuntu-systemd
+      image_version: latest
+      privileged: True
+      required: True
