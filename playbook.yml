@@ -1,4 +1,6 @@
 ---
 - hosts: all
+  vars:
+    standard_user: testuser
   roles:
     - role: ansible-ssh
