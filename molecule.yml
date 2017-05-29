@@ -1,11 +1,12 @@
 ---
 dependency:
   name: galaxy
+  requirements_file: requirements.yml
 driver:
   name: docker
 docker:
   containers:
-    - name: ansible-ssh
+    - name: centos7
       image: planetw/docker-centos7-ansible
       image_version: latest
 verifier:
