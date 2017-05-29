@@ -6,9 +6,12 @@ services:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
-  
+
 install:
   - pip install molecule ansible docker
   
 script:
   - molecule test
+
+notifications:
+        webhooks: https://galaxy.ansible.com/api/v1/notifications/
