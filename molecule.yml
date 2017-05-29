@@ -6,9 +6,7 @@ driver:
 docker:
   containers:
     - name: ansible-ssh
-      image: ubuntu
+      image: planetw/docker-ubuntu1604-ansible
       image_version: latest
-      ansible_groups:
-        - group1
 verifier:
   name: testinfra
