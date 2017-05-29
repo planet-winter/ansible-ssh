@@ -1,0 +1,26 @@
+---
+
+- name: Update apt cache.
+  apt: update_cache=yes cache_valid_time=86400
+  when: ansible_os_family == 'Debian'
+
+- name: install universe repository for firewalld
+  apt_repository:
+    repo: "{{item}}"
+  register: multiverse_installed
+  when: ansible_distribution == 'Ubuntu'
+  with_items:
+    - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} universe'
+    - 'deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} multiverse'
+
+- name: copy a fix rpm over
+  copy:
+    src:  python-firewalld_0.1-0.deb
+    dest: /tmp/python-firewalld_0.1-0.deb
+    owner: root
+    group: root
+
+- name: install local deb as fix
+  apt:
+    deb: /tmp/python-firewalld_0.1-0.deb
+    state: installed

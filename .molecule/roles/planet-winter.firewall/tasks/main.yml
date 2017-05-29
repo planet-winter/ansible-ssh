@@ -1,0 +1,33 @@
+---
+# use firewalld as it is supported by ansible <=2.0
+# run this role before using firewalld
+#  to avoid issue https://github.com/ansible/ansible-modules-extras/issues/128
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml"
+        - "{{ ansible_distribution|lower }}-{{ ansible_distribution_release }}.yml"
+        - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+        - defaults.yml
+      paths:
+        - ../vars
+      skip: True
+
+- include: ubuntu-install.yml
+  when: ( ansible_distribution|lower == 'ubuntu' )
+
+- include: fedora-install.yml
+  when: ( ansible_distribution|lower == 'fedora' and ansible_distribution_version == '25' )
+
+- name: install firewalld
+  action: "{{ ansible_pkg_mgr }} state=installed name=firewalld"
+
+- name: start firewall
+  service: name=firewalld enabled=yes state=started
+
+- name: ensure ssh port is always open
+  firewalld: service=ssh permanent=true state=enabled immediate=true zone=public

@@ -1,0 +1,4 @@
+---
+
+- name: install missing python package as fix
+  action: "{{ ansible_pkg_mgr }} state=installed name=python-firewall"

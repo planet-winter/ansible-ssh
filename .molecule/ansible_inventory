@@ -1,0 +1,3 @@
+[all]
+centos7 ansible_connection=docker
+ubuntu16.04 ansible_connection=docker
